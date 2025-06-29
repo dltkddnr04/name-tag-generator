@@ -13,10 +13,12 @@ import { Trash2, Plus, MoveUp, MoveDown, Upload, Eye } from "lucide-react"
 
 // 이름표 형식 정의
 const NAME_TAG_FORMATS = [
-  { name: "표준 (90x60mm)", width: 90, height: 60 },
-  { name: "대형 (120x80mm)", width: 120, height: 80 },
-  { name: "소형 (70x45mm)", width: 70, height: 45 },
-  { name: "정사각형 (80x80mm)", width: 80, height: 80 },
+  { name: "가로형 (93x80mm)", width: 93, height: 80 },
+  { name: "가로형 (150x115mm)", width: 150, height: 115 },
+  { name: "세로형 (72x110mm)", width: 72, height: 110 },
+  { name: "세로형 (103x133mm)", width: 103, height: 133 },
+  { name: "세로형 (115x150mm)", width: 115, height: 150 },
+  { name: "세로형 (150x210mm)", width: 150, height: 210 },
   { name: "커스텀", width: 0, height: 0 },
 ]
 
@@ -213,8 +215,9 @@ const NameTagGenerator = () => {
 
     function drawTexts() {
       // 테두리 그리기
-      ctx.strokeStyle = "#e5e7eb"
-      ctx.lineWidth = 0.2
+      if (!ctx) return
+      ctx.strokeStyle = "#000000"
+      ctx.lineWidth = 0.0
       ctx.strokeRect(0, 0, currentTagSize.width, currentTagSize.height)
 
       // 텍스트 필드 그리기
@@ -362,8 +365,10 @@ const NameTagGenerator = () => {
             setParticipants((prevParticipants) =>
               prevParticipants.map((p) => {
                 const newData = { ...p.data }
-                newData[updates.name] = newData[field.name] || ""
-                delete newData[field.name]
+                if (updates.name) {
+                  newData[updates.name] = newData[field.name] || ""
+                  delete newData[field.name]
+                }
                 return { ...p, data: newData }
               }),
             )
